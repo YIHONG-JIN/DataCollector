@@ -26,7 +26,8 @@ public class MainController {
     }
 
     @PostMapping("/data")
-    public ResponseEntity<String> postData(@RequestBody String body) {
+    public ResponseEntity<String> postData(@RequestBody String body) throws IOException {
+        Files.createDirectories(Paths.get("data"));
         // open a file named "data.txt"
         try (OutputStream os = new FileOutputStream("data/data" + countRawData +".txt", true)) {
             os.write(body.getBytes());
@@ -43,6 +44,8 @@ public class MainController {
 
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
+        // creat the directory if it doesn't exist
+        Files.createDirectories(Paths.get("file"));
         // create the file path
         Path filePath = Paths.get("file/" + fileName);
 
